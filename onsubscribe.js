@@ -8,7 +8,7 @@ const docClient = new AWS.DynamoDB.DocumentClient({
 exports.handler = async(event, context) => {
 
     const connectionId = event.requestContext.connectionId;
-    const event = JSON.parse(event.body).event;
+    const topic = JSON.parse(event.body).topic;
 
     if (!event) {
         return {
@@ -25,7 +25,7 @@ exports.handler = async(event, context) => {
         TableName: TABLE_NAME,
         Item: {
             'c_id': connectionId,
-            'event': event,
+            'topic': topic,
             'ttl': Math.floor(Date.now() / 1000) + 3600
         },
         ReturnValues: 'NONE'
